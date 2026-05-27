@@ -1,0 +1,21 @@
+{
+  "name": "vaf-typescript-zero-to-hero",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Zero to Hero TypeScript course for Velocity Architecture Academy and AI-native architecture practice.",
+  "scripts": {
+    "lesson:01": "tsx src/lessons/01-hello-typescript.ts",
+    "lesson:02": "tsx src/lessons/02-types-and-functions.ts",
+    "lesson:03": "tsx src/lessons/03-objects-interfaces.ts",
+    "lesson:04": "tsx src/lessons/04-arrays-decisions.ts",
+    "lesson:05": "tsx src/lessons/05-architecture-decision-score.ts",
+    "check": "tsc --noEmit",
+    "dev": "tsx watch src/lessons/01-hello-typescript.ts"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}
