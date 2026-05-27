@@ -4,10 +4,10 @@ interface LearningPath {
   level: "seed" | "planned" | "available";
 }
 
-const path: LearningPath = {
+const learningPath: LearningPath = {
   name: "Agentic AI for Architecture",
   audience: "Architecture practitioners",
   level: "seed",
 };
 
-console.log(path);
+console.log(learningPath);

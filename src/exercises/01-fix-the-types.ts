@@ -5,8 +5,10 @@
 // 2. Change the return type so TypeScript knows the function returns a number.
 // 3. Run: npm run check
 
-function calculateRiskScore(likelihood, impact) {
+function calculateRiskScore(likelihood: number, impact: number): number {
   return likelihood * impact;
 }
 
 console.log(calculateRiskScore(4, 5));
+
+export {};
