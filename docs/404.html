@@ -5,143 +5,299 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>VAF TypeScript Zero to Hero</title>
   <style>
+    :root {
+      --blue: #1e3a8a;
+      --blue2: #2563eb;
+      --ink: #0f172a;
+      --muted: #475569;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --card: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f8fafc;
-      color: #0f172a;
+      background: var(--bg);
+      color: var(--ink);
       line-height: 1.6;
     }
 
     header {
-      background: #1e3a8a;
+      background:
+        radial-gradient(circle at top right, rgba(96,165,250,.35), transparent 35%),
+        linear-gradient(135deg, #0f172a, #1e3a8a);
       color: white;
-      padding: 64px 24px;
+      padding: 72px 24px;
     }
 
-    main {
-      max-width: 1080px;
+    .wrap {
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 32px 24px 64px;
     }
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: 44px;
-      line-height: 1.1;
-    }
-
-    h2 {
-      margin-top: 40px;
-      color: #1e3a8a;
-    }
-
-    .subtitle {
-      max-width: 760px;
-      font-size: 20px;
-      margin: 0;
-    }
-
-    .tag {
+    .eyebrow {
       display: inline-block;
-      background: #dbeafe;
-      color: #1e3a8a;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.22);
       padding: 6px 12px;
       border-radius: 999px;
       font-size: 13px;
-      margin-bottom: 16px;
-      font-weight: bold;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 850px;
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin-top: 22px;
+      max-width: 780px;
+      color: #dbeafe;
+      font-size: 21px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button.primary {
+      background: white;
+      color: var(--blue);
+    }
+
+    .button.secondary {
+      border: 1px solid rgba(255,255,255,.3);
+      color: white;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(248,250,252,.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav .wrap {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding: 12px 24px;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 700;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 42px 24px 72px;
+    }
+
+    section {
+      margin-top: 48px;
+    }
+
+    h2 {
+      color: var(--blue);
+      font-size: 30px;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 18px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
       gap: 16px;
-      margin-top: 20px;
+      margin-top: 22px;
     }
 
     .card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
       padding: 20px;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
     }
 
-    .card strong {
-      color: #1e3a8a;
-      font-size: 18px;
+    .num {
+      color: var(--blue2);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .card h3 {
+      margin: 8px 0 8px;
+      font-size: 19px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .panel {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 20px;
+      padding: 24px;
+      margin-top: 20px;
     }
 
     pre {
-      background: #0f172a;
-      color: #e2e8f0;
-      padding: 18px;
-      border-radius: 14px;
+      margin: 0;
       overflow-x: auto;
+      font-size: 15px;
     }
 
-    code {
-      background: #e2e8f0;
-      padding: 2px 6px;
-      border-radius: 6px;
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .split { grid-template-columns: 1fr; }
+    }
+
+    .callout {
+      border-left: 5px solid var(--blue2);
+      background: white;
+      padding: 18px 20px;
+      border-radius: 14px;
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
     footer {
-      border-top: 1px solid #e2e8f0;
-      margin-top: 48px;
+      margin-top: 56px;
       padding-top: 24px;
-      color: #475569;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="tag">Velocity Architecture Academy</div>
-    <h1>VAF TypeScript Zero to Hero</h1>
-    <p class="subtitle">TypeScript for AI-native architects, vibe coders, and Velocity Architecture Academy practitioners.</p>
+    <div class="wrap">
+      <div class="eyebrow">Velocity Architecture Academy � StudioSix Learning Asset</div>
+      <h1>TypeScript Zero to Hero for AI-native architects.</h1>
+      <p class="subtitle">A practical course for vibe coders, enterprise architects, and Velocity practitioners who want to read, run, debug, and govern generated code.</p>
+      <div class="actions">
+        <a class="button primary" href="#run">Run the course</a>
+        <a class="button secondary" href="https://github.com/ZenCloudAU/vaf-typescript-zero-to-hero">View GitHub repo</a>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <section>
+  <nav>
+    <div class="wrap">
+      <a href="#purpose">Purpose</a>
+      <a href="#path">Learning Path</a>
+      <a href="#run">Run Locally</a>
+      <a href="#architecture">Architecture Lens</a>
+      <a href="#outcome">Outcome</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="purpose">
       <h2>Course purpose</h2>
-      <p>This course teaches enough TypeScript to read, run, question, debug, and govern AI-generated code. It is designed for builders who want to move from vibe coding into controlled delivery.</p>
-    </section>
-
-    <section>
-      <h2>Run locally</h2>
-      <pre>npm install
-npm run check
-npm run lesson:all</pre>
-    </section>
-
-    <section>
-      <h2>Learning path</h2>
+      <p class="lead">This course teaches enough TypeScript to control AI-generated software. It is not a traditional computer science course. It is a practical bridge between architecture thinking, coding literacy, and product delivery.</p>
       <div class="grid">
-        <div class="card"><strong>00</strong><br>Programming Primer</div>
-        <div class="card"><strong>01</strong><br>Hello TypeScript</div>
-        <div class="card"><strong>02</strong><br>Types and Functions</div>
-        <div class="card"><strong>03</strong><br>Objects and Interfaces</div>
-        <div class="card"><strong>04</strong><br>Arrays and Decisions</div>
-        <div class="card"><strong>05</strong><br>Architecture Decision Score</div>
-        <div class="card"><strong>06</strong><br>Status Types</div>
-        <div class="card"><strong>07</strong><br>Arrays, Map, and Filter</div>
-        <div class="card"><strong>08</strong><br>Functions as Decision Engines</div>
-        <div class="card"><strong>09</strong><br>Interfaces as Contracts</div>
-        <div class="card"><strong>10</strong><br>Mini VAF Scoring Model</div>
-        <div class="card"><strong>11</strong><br>AI Prompt Guardrails</div>
-        <div class="card"><strong>12</strong><br>Capstone Decision Tool</div>
+        <div class="card"><h3>For architects</h3><p>Understand types as contracts, interfaces as artefact structures, and the compiler as a quality gate.</p></div>
+        <div class="card"><h3>For vibe coders</h3><p>Move from guessing and prompting into reading, checking, editing, and shipping safely.</p></div>
+        <div class="card"><h3>For StudioSix</h3><p>Create a reusable learning product that supports Academy, advisory, and AI tooling work.</p></div>
       </div>
     </section>
 
-    <section>
-      <h2>Why this matters</h2>
-      <p>TypeScript describes the shape of data before the code runs. For architects, this means types act like delivery guardrails, interfaces act like artefact contracts, and the compiler acts like a quality gate.</p>
-      <p>In VAF language: data enters, a decision function runs, an output is produced, and the structure is checked before delivery.</p>
+    <section id="path">
+      <h2>Learning path</h2>
+      <p class="lead">Thirteen short lessons move from basic programming concepts into a small VAF decision-support model.</p>
+      <div class="grid">
+        <div class="card"><div class="num">00</div><h3>Programming Primer</h3><p>Data, instructions, variables, functions, and output.</p></div>
+        <div class="card"><div class="num">01</div><h3>Hello TypeScript</h3><p>Run a TypeScript file and see output in the terminal.</p></div>
+        <div class="card"><div class="num">02</div><h3>Types and Functions</h3><p>Use numbers, strings, parameters, and return values.</p></div>
+        <div class="card"><div class="num">03</div><h3>Objects and Interfaces</h3><p>Model structured artefacts with explicit contracts.</p></div>
+        <div class="card"><div class="num">04</div><h3>Arrays and Decisions</h3><p>Work with lists of decisions and repeatable logic.</p></div>
+        <div class="card"><div class="num">05</div><h3>Decision Score</h3><p>Calculate basic architecture decision scores.</p></div>
+        <div class="card"><div class="num">06</div><h3>Status Types</h3><p>Restrict values to approved lifecycle states.</p></div>
+        <div class="card"><div class="num">07</div><h3>Map and Filter</h3><p>Transform and select decision records.</p></div>
+        <div class="card"><div class="num">08</div><h3>Decision Engines</h3><p>Turn functions into reusable scoring logic.</p></div>
+        <div class="card"><div class="num">09</div><h3>Interfaces as Contracts</h3><p>Use interfaces as architecture artefact contracts.</p></div>
+        <div class="card"><div class="num">10</div><h3>Mini VAF Model</h3><p>Score business value, data readiness, risk, and complexity.</p></div>
+        <div class="card"><div class="num">11</div><h3>AI Guardrails</h3><p>Assess prompt readiness and review requirements.</p></div>
+        <div class="card"><div class="num">12</div><h3>Capstone Tool</h3><p>Combine types, functions, statuses, and recommendations.</p></div>
+      </div>
+    </section>
+
+    <section id="run">
+      <h2>Run locally</h2>
+      <div class="split">
+        <div class="panel">
+          <pre>git clone https://github.com/ZenCloudAU/vaf-typescript-zero-to-hero.git
+cd vaf-typescript-zero-to-hero
+npm install
+npm run check
+npm run lesson:all</pre>
+        </div>
+        <div class="callout">
+          <strong>Learning loop</strong>
+          <p>Read one lesson. Run it. Change one thing. Run it again. Commit the milestone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <h2>Architecture lens</h2>
+      <div class="grid">
+        <div class="card"><h3>Type</h3><p>A rule that says what kind of value is allowed.</p></div>
+        <div class="card"><h3>Interface</h3><p>A contract that defines the required shape of an artefact.</p></div>
+        <div class="card"><h3>Function</h3><p>A reusable decision rule that converts inputs into outputs.</p></div>
+        <div class="card"><h3>Compiler</h3><p>A quality gate that catches structural errors before runtime.</p></div>
+      </div>
+    </section>
+
+    <section id="outcome">
+      <h2>Outcome</h2>
+      <p class="lead">By the end, learners can inspect generated TypeScript, understand the shape of the data, identify unsafe changes, and build small decision-support tools aligned to Velocity Architecture principles.</p>
     </section>
 
     <footer>
-      ZenCloud / StudioSix / Velocity Architecture Academy learning asset.
+      ZenCloud Advisory � StudioSix � Velocity Architecture Academy � VAF TypeScript Zero to Hero
     </footer>
   </main>
 </body>
